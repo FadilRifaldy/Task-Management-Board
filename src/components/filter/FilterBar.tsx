@@ -8,10 +8,10 @@ const FilterBar: React.FC = () => {
   const { filter, setFilter, clearFilter } = useBoardStore();
 
   return (
-    <div className="flex items-center gap-4 px-6 py-2 bg-[#f8f9fb] border-b border-gray-200 flex-wrap">
+    <div className="flex items-center gap-3 sm:gap-4 px-3 sm:px-6 py-2 bg-white border-b border-gray-200 flex-wrap">
       
-      <div className="flex items-center gap-1">
-        <IonLabel className="!text-xs !font-medium !text-gray-500">Assignee:</IonLabel>
+      <div className="flex items-center gap-1 w-[calc(50%-6px)] sm:w-auto">
+        <IonLabel className="!text-xs !font-medium !text-gray-500 whitespace-nowrap">Assignee:</IonLabel>
         <IonSelect
           value={filter.assignee}
           placeholder="All"
@@ -28,8 +28,8 @@ const FilterBar: React.FC = () => {
         </IonSelect>
       </div>
 
-      <div className="flex items-center gap-1">
-        <IonLabel className="!text-xs !font-medium !text-gray-500">Label:</IonLabel>
+      <div className="flex items-center gap-1 w-[calc(50%-6px)] sm:w-auto">
+        <IonLabel className="!text-xs !font-medium !text-gray-500 whitespace-nowrap">Label:</IonLabel>
         <IonSelect
           value={filter.label}
           placeholder="All"
@@ -46,8 +46,8 @@ const FilterBar: React.FC = () => {
         </IonSelect>
       </div>
 
-      <div className="flex items-center gap-1">
-        <IonLabel className="!text-xs !font-medium !text-gray-500">Priority:</IonLabel>
+      <div className="flex items-center gap-1 w-[calc(50%-6px)] sm:w-auto">
+        <IonLabel className="!text-xs !font-medium !text-gray-500 whitespace-nowrap">Priority:</IonLabel>
         <IonSelect
           value={filter.priority}
           placeholder="All"
@@ -64,12 +64,12 @@ const FilterBar: React.FC = () => {
         </IonSelect>
       </div>
 
-      <div className="flex items-center gap-1">
-        <IonLabel className="!text-xs !font-medium !text-gray-500">Due Date:</IonLabel>
+      <div className="flex items-center gap-1 w-[calc(50%-6px)] sm:w-auto">
+        <IonLabel className="!text-xs !font-medium !text-gray-500 whitespace-nowrap">Due:</IonLabel>
         <IonInput
           type="date"
           value={filter.due}
-          className="!text-xs !min-h-0 !py-0 !w-[140px]"
+          className="!text-xs !min-h-0 !py-0 !w-[130px]"
           onIonInput={(e) => setFilter({ due: (e.detail.value as string) ?? "" })}
         />
       </div>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import type { Column as ColumnType } from "../../types";
-import { IonButton, IonIcon, IonBadge } from "@ionic/react";
-import { addOutline, ellipsisHorizontal, expandOutline } from "ionicons/icons";
+import { IonButton, IonIcon, IonBadge, IonActionSheet, useIonToast } from "@ionic/react";
+import { addOutline, ellipsisHorizontal, expandOutline, trash } from "ionicons/icons";
 import useBoardStore from "../../store/useBoardStore";
 import TaskCard from "../task/TaskCard";
 
@@ -10,14 +10,16 @@ interface ColumnProps {
 }
 
 const Column: React.FC<ColumnProps> = ({ column }) => {
-  const { getFilteredTasks, setSelectedTask, setShowModal, moveTask, tasks } =
+  const { getFilteredTasks, setSelectedTask, setShowModal, moveTask, tasks, deleteColumn } =
     useBoardStore();
   const filteredTasks = getFilteredTasks(column.id);
   const allColTasks = tasks.filter((t) => t.column === column.id);
   const [dragOver, setDragOver] = useState(false);
+  const [showAction, setShowAction] = useState(false);
+  const [present] = useIonToast();
 
   return (
-    <div className="min-w-[290px] w-[290px] flex flex-col gap-2.5 flex-shrink-0">
+    <div className="min-w-[260px] sm:min-w-[290px] w-[260px] sm:w-[290px] flex flex-col gap-2.5 flex-shrink-0">
       <div className="flex items-center gap-1 px-0.5 py-1.5">
         <h3 className="font-semibold text-sm flex-1 text-gray-900">
           {column.name}
@@ -41,7 +43,7 @@ const Column: React.FC<ColumnProps> = ({ column }) => {
           {allColTasks.length}
         </IonBadge>
 
-        <IonButton fill="clear" size="small" color="medium" className="!min-h-0 !h-7 !w-7">
+        <IonButton fill="clear" size="small" color="medium" className="!min-h-0 !h-7 !w-7" onClick={() => setShowAction(true)}>
           <IonIcon icon={ellipsisHorizontal} slot="icon-only" />
         </IonButton>
         <IonButton fill="clear" size="small" color="medium" className="!min-h-0 !h-7 !w-7">
@@ -51,7 +53,7 @@ const Column: React.FC<ColumnProps> = ({ column }) => {
 
       <div
         className={`flex flex-col gap-2.5 rounded-xl p-1 min-h-[60px] border-2 border-dashed transition-colors ${
-          dragOver ? "border-blue-500 bg-blue-50/50" : "border-transparent"
+          dragOver ? "border-[#5b8def] bg-blue-50/50" : "border-transparent"
         }`}
         onDragOver={(e) => {
           e.preventDefault();
@@ -71,6 +73,26 @@ const Column: React.FC<ColumnProps> = ({ column }) => {
           <TaskCard key={task.id} task={task} />
         ))}
       </div>
+
+      <IonActionSheet
+        isOpen={showAction}
+        onDidDismiss={() => setShowAction(false)}
+        buttons={[
+          {
+            text: 'Delete Column',
+            role: 'destructive',
+            icon: trash,
+            handler: () => {
+              deleteColumn(column.id);
+              present({ message: 'Column deleted', duration: 2000, color: 'dark', position: 'bottom' });
+            }
+          },
+          {
+            text: 'Cancel',
+            role: 'cancel'
+          }
+        ]}
+      />
     </div>
   );
 };

@@ -12,6 +12,7 @@ import {
   IonAvatar,
   IonChip,
   IonAlert,
+  useIonToast
 } from "@ionic/react";
 import {
   closeOutline,
@@ -22,6 +23,7 @@ import {
   attachOutline,
   chatbubblesOutline,
   checkboxOutline,
+  cloudUploadOutline,
 } from "ionicons/icons";
 import useBoardStore from "../../store/useBoardStore";
 import { TEAM, LABEL_OPTIONS, PRIORITY_OPTIONS } from "../../constants";
@@ -44,6 +46,7 @@ const TaskModal: React.FC = () => {
   const [attachments, setAttachments] = useState<Attachment[]>([]);
   const [newSubtaskText, setNewSubtaskText] = useState("");
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [present] = useIonToast();
 
   useEffect(() => {
     if (selectedTask) {
@@ -73,8 +76,10 @@ const TaskModal: React.FC = () => {
     const taskData = { ...form, checklist, attachments };
     if (selectedTask) {
       updateTask(selectedTask.id, taskData);
+      present({ message: 'Task updated successfully', duration: 2000, color: 'success', position: 'bottom' });
     } else {
       addTask(taskData as Omit<Task, "id" | "createdAt">);
+      present({ message: 'Task created successfully', duration: 2000, color: 'success', position: 'bottom' });
     }
     setShowModal(false);
     setSelectedTask(null);
@@ -83,6 +88,7 @@ const TaskModal: React.FC = () => {
   const handleDelete = () => {
     if (selectedTask) {
       deleteTask(selectedTask.id);
+      present({ message: 'Task deleted successfully', duration: 2000, color: 'dark', position: 'bottom' });
       setShowModal(false);
       setSelectedTask(null);
     }
@@ -139,7 +145,7 @@ const TaskModal: React.FC = () => {
     <>
       <IonModal isOpen={showModal} onDidDismiss={() => { setShowModal(false); setSelectedTask(null); }}>
         <div className="bg-white rounded-2xl flex flex-col max-h-[90vh] overflow-hidden">
-          <div className="flex items-center gap-2 px-4 py-3 border-b border-gray-200">
+          <div className="flex items-center gap-2 px-4 py-3 border-b border-gray-200 bg-gray-50">
             <IonButton
               fill={form.done ? "solid" : "outline"}
               color={form.done ? "success" : "medium"}
@@ -164,7 +170,7 @@ const TaskModal: React.FC = () => {
 
           <div className="flex-1 overflow-y-auto p-5">
             <div
-              className="border-2 border-dashed border-gray-200 rounded-xl h-[140px] flex flex-col items-center justify-center gap-1.5 cursor-pointer mb-4 transition-colors hover:border-blue-500 hover:text-blue-500 bg-[#f8f9fb] relative overflow-hidden"
+              className="border-2 border-dashed border-gray-200 rounded-xl h-[140px] flex flex-col items-center justify-center gap-1.5 cursor-pointer mb-4 transition-colors hover:border-[#5b8def] hover:text-[#5b8def] bg-gray-50 relative overflow-hidden"
               onClick={() => document.getElementById("modal-cover-input")?.click()}
             >
               {form.cover ? (
@@ -183,7 +189,7 @@ const TaskModal: React.FC = () => {
               ) : (
                 <>
                   <IonIcon icon={imageOutline} className="!text-3xl text-gray-400" />
-                  <span className="text-[13px] text-blue-500">Add Cover Image</span>
+                  <span className="text-[13px] text-[#5b8def]">Add Cover Image</span>
                 </>
               )}
               <input id="modal-cover-input" type="file" accept="image/*" onChange={handleCoverUpload} className="hidden" />
@@ -285,7 +291,7 @@ const TaskModal: React.FC = () => {
                 placeholder="Add a description..."
                 rows={4}
                 onIonInput={(e) => setForm({ ...form, desc: e.detail.value ?? "" })}
-                className="!border !border-gray-200 !rounded-lg !bg-[#f8f9fb] !pl-5"
+                className="!border !border-gray-200 !rounded-lg !bg-gray-50 !pl-5"
               />
             </div>
 
@@ -294,15 +300,16 @@ const TaskModal: React.FC = () => {
                 <IonIcon icon={attachOutline} /> Attachments
               </div>
               <div
-                className="border-2 border-dashed border-gray-200 rounded-lg p-4 text-center text-[13px] text-gray-500 cursor-pointer transition-colors hover:border-blue-500 hover:text-blue-500"
+                className="border-2 border-dashed border-gray-200 rounded-lg p-4 text-center text-[13px] text-gray-500 cursor-pointer transition-colors hover:border-[#5b8def] hover:text-[#5b8def] flex flex-col items-center justify-center gap-2"
                 onClick={addAttachment}
               >
-                📁 Drag & Drop files here &nbsp;
-                <span className="text-gray-400">or</span>&nbsp;
-                <span className="text-blue-500 cursor-pointer">browse from device</span>
+                <IonIcon icon={cloudUploadOutline} className="text-2xl text-gray-400" />
+                <div>
+                  Drag & Drop files here <span className="text-gray-400">or</span> <span className="text-[#5b8def] cursor-pointer">browse</span>
+                </div>
               </div>
               {attachments.map((att) => (
-                <div key={att.id} className="flex items-center gap-2 p-1.5 bg-[#f8f9fb] rounded-md mt-1.5 text-xs">
+                <div key={att.id} className="flex items-center gap-2 p-1.5 bg-gray-50 rounded-md mt-1.5 text-xs border border-gray-100">
                   <IonIcon icon={attachOutline} className="text-gray-500" />
                   <span className="flex-1 font-medium text-gray-700">{att.name}</span>
                   <IonButton fill="clear" size="small" color="danger" onClick={() => deleteAttachment(att.id)}>
@@ -318,7 +325,7 @@ const TaskModal: React.FC = () => {
               </div>
               <div className="text-xs text-gray-500 mb-1.5">{doneCount} / {totalCount}</div>
               <div className="h-1 bg-gray-200 rounded-sm mb-2">
-                <div className="h-full rounded-sm transition-all duration-300" style={{ width: `${progressPct}%`, backgroundColor: progressPct >= 100 ? "#10b981" : "#4f6ef7" }} />
+                <div className="h-full rounded-sm transition-all duration-300" style={{ width: `${progressPct}%`, backgroundColor: progressPct >= 100 ? "#34d399" : "#5b8def" }} />
               </div>
               {checklist.map((sub) => (
                 <div key={sub.id} className="flex items-center gap-2 py-1.5 border-b border-gray-100 last:border-b-0">
@@ -349,14 +356,14 @@ const TaskModal: React.FC = () => {
               </div>
               <div className="flex gap-2 mb-2.5 text-xs text-gray-500">
                 <IonAvatar className="!w-6 !h-6 flex-shrink-0">
-                  <div className="w-full h-full rounded-full bg-blue-500 text-white flex items-center justify-center text-[10px] font-bold">A</div>
+                  <div className="w-full h-full rounded-full bg-[#5b8def] text-white flex items-center justify-center text-[10px] font-bold">A</div>
                 </IonAvatar>
                 <div><strong className="text-gray-700">Admin</strong> created this task</div>
               </div>
             </div>
           </div>
 
-          <div className="flex justify-end gap-2 px-4 py-3 border-t border-gray-200">
+          <div className="flex justify-end gap-2 px-4 py-3 border-t border-gray-200 bg-gray-50">
             <IonButton fill="outline" color="medium" onClick={() => { setShowModal(false); setSelectedTask(null); }}>
               Discard
             </IonButton>

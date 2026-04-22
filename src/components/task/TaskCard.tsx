@@ -28,7 +28,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
 
   return (
     <IonCard
-      className="!m-0 !rounded-xl !shadow-[0_1px_3px_rgba(0,0,0,.06),0_4px_12px_rgba(0,0,0,.04)] hover:!shadow-[0_8px_24px_rgba(0,0,0,.10)] hover:-translate-y-0.5 transition-all duration-200 cursor-grab overflow-hidden bg-white"
+      className="!m-0 !rounded-xl !shadow-[0_1px_3px_rgba(0,0,0,.05),0_4px_12px_rgba(0,0,0,.04)] hover:!shadow-[0_8px_24px_rgba(0,0,0,.10)] hover:-translate-y-0.5 transition-all duration-200 cursor-grab overflow-hidden bg-white border border-gray-100"
       draggable
       onDragStart={(e: any) => {
         e.dataTransfer.setData("task-id", task.id);
@@ -84,7 +84,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
               className="h-full rounded-sm transition-all duration-300"
               style={{
                 width: `${progressPercent}%`,
-                backgroundColor: progressPercent >= 100 ? "#10b981" : "#4f6ef7",
+                backgroundColor: progressPercent >= 100 ? "#34d399" : "#5b8def",
               }}
             />
           </div>

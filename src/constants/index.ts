@@ -1,12 +1,12 @@
 import type { Member, Column, Task } from '../types';
 
 export const TEAM: Member[] = [
-  { id: 'u1', name: 'Andi',  color: '#4f6ef7' },
-  { id: 'u2', name: 'Budi',  color: '#7c3aed' },
-  { id: 'u3', name: 'Citra', color: '#10b981' },
-  { id: 'u4', name: 'Dina',  color: '#f59e0b' },
-  { id: 'u5', name: 'Eko',   color: '#ef4444' },
-  { id: 'u6', name: 'Fani',  color: '#ec4899' },
+  { id: 'u1', name: 'Andi',  color: '#5b8def' },
+  { id: 'u2', name: 'Budi',  color: '#8b5cf6' },
+  { id: 'u3', name: 'Citra', color: '#34d399' },
+  { id: 'u4', name: 'Dina',  color: '#fbbf24' },
+  { id: 'u5', name: 'Eko',   color: '#f87171' },
+  { id: 'u6', name: 'Fani',  color: '#f472b6' },
 ];
 
 export const DEFAULT_COLUMNS: Column[] = [
@@ -18,16 +18,16 @@ export const DEFAULT_COLUMNS: Column[] = [
 ];
 
 export const LABEL_OPTIONS = [
-  { value: 'Feature',   bg: '#eff6ff', color: '#2563eb' },
-  { value: 'Bug',       bg: '#fef2f2', color: '#dc2626' },
-  { value: 'Issue',     bg: '#fff7ed', color: '#c2410c' },
-  { value: 'Undefined', bg: '#f3f4f6', color: '#6b7280' },
+  { value: 'Feature',   bg: '#e8f0fe', color: '#5b8def' },
+  { value: 'Bug',       bg: '#fee2e2', color: '#f87171' },
+  { value: 'Issue',     bg: '#fff7ed', color: '#fb923c' },
+  { value: 'Undefined', bg: '#f1f5f9', color: '#94a3b8' },
 ] as const;
 
 export const PRIORITY_OPTIONS = [
-  { value: 'Low',    color: '#10b981' },
-  { value: 'Medium', color: '#f59e0b' },
-  { value: 'High',   color: '#ef4444' },
+  { value: 'Low',    color: '#34d399' },
+  { value: 'Medium', color: '#fbbf24' },
+  { value: 'High',   color: '#f87171' },
 ] as const;
 
 export const DUMMY_COVERS = [
@@ -194,4 +194,4 @@ export const DEFAULT_TASKS: Task[] = [
   },
 ];
 
-export const ACCENT = '#4f6ef7';
+export const ACCENT = '#5b8def';
