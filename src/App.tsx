@@ -1,5 +1,11 @@
 import { Redirect, Route } from "react-router-dom";
-import { IonApp, IonRouterOutlet, setupIonicReact } from "@ionic/react";
+import {
+  IonApp,
+  IonPage,
+  IonContent,
+  IonRouterOutlet,
+  setupIonicReact,
+} from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 
 /* Core CSS required for Ionic components to work properly */
@@ -27,13 +33,14 @@ import "@ionic/react/css/display.css";
 
 /* import '@ionic/react/css/palettes/dark.always.css'; */
 /* import '@ionic/react/css/palettes/dark.class.css'; */
-import "@ionic/react/css/palettes/dark.system.css";
+/* import "@ionic/react/css/palettes/dark.system.css"; */
 
 /* Theme variables */
 import "./theme/variables.css";
 
 import Navbar from "./components/board/Navbar";
 import BoardArea from "./components/board/BoardArea";
+import TaskModal from "./components/task/TaskModal";
 
 setupIonicReact();
 
@@ -42,10 +49,15 @@ const App: React.FC = () => (
     <IonReactRouter>
       <IonRouterOutlet>
         <Route exact path="/home">
-          <div className="min-h-screen bg-gray-50">
-            <Navbar />
-            <BoardArea />
-          </div>
+          <IonPage>
+            <IonContent>
+              <div className="min-h-screen bg-[#f0f2f5]">
+                <Navbar />
+                <BoardArea />
+                <TaskModal />
+              </div>
+            </IonContent>
+          </IonPage>
         </Route>
         <Route exact path="/">
           <Redirect to="/home" />

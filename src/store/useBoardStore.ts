@@ -1,19 +1,22 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import type { Task, Column, FilterState } from '../types';
-import { DEFAULT_TASKS, DEFAULT_COLUMNS } from '../constants';
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+import type { Task, Column, FilterState } from "../types";
+import { DEFAULT_TASKS, DEFAULT_COLUMNS } from "../constants";
 
-const genId = () => Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
+const genId = () =>
+  Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
 
 interface BoardStore {
   columns: Column[];
   tasks: Task[];
   filter: FilterState;
+  selectedTask: Task | null;
+  showModal: boolean;
 
   addColumn: (name: string) => void;
   deleteColumn: (id: string) => void;
 
-  addTask: (task: Omit<Task, 'id' | 'createdAt'>) => void;
+  addTask: (task: Omit<Task, "id" | "createdAt">) => void;
   updateTask: (id: string, data: Partial<Task>) => void;
   deleteTask: (id: string) => void;
   moveTask: (taskId: string, toColumnId: string) => void;
@@ -22,27 +25,30 @@ interface BoardStore {
   clearFilter: () => void;
 
   getFilteredTasks: (columnId: string) => Task[];
+  setSelectedTask: (task: Task | null) => void;
+  setShowModal: (show: boolean) => void;
 }
 
 const DEFAULT_FILTER: FilterState = {
-  assignee: '',
-  label: '',
-  priority: '',
-  due: '',
-  search: '',
+  assignee: "",
+  label: "",
+  priority: "",
+  due: "",
+  search: "",
 };
 
 const useBoardStore = create<BoardStore>()(
   persist(
     (set, get) => ({
-      
       columns: DEFAULT_COLUMNS,
       tasks: DEFAULT_TASKS,
       filter: DEFAULT_FILTER,
+      selectedTask: null,
+      showModal: false,
 
       addColumn: (name) =>
         set((state) => ({
-          columns: [...state.columns, { id: 'c' + genId(), name }],
+          columns: [...state.columns, { id: "c" + genId(), name }],
         })),
 
       deleteColumn: (id) =>
@@ -57,7 +63,7 @@ const useBoardStore = create<BoardStore>()(
             ...state.tasks,
             {
               ...task,
-              id: 't' + genId(),
+              id: "t" + genId(),
               createdAt: new Date().toISOString(),
             },
           ],
@@ -65,9 +71,7 @@ const useBoardStore = create<BoardStore>()(
 
       updateTask: (id, data) =>
         set((state) => ({
-          tasks: state.tasks.map((t) =>
-            t.id === id ? { ...t, ...data } : t
-          ),
+          tasks: state.tasks.map((t) => (t.id === id ? { ...t, ...data } : t)),
         })),
 
       deleteTask: (id) =>
@@ -78,7 +82,7 @@ const useBoardStore = create<BoardStore>()(
       moveTask: (taskId, toColumnId) =>
         set((state) => ({
           tasks: state.tasks.map((t) =>
-            t.id === taskId ? { ...t, column: toColumnId } : t
+            t.id === taskId ? { ...t, column: toColumnId } : t,
           ),
         })),
 
@@ -89,17 +93,20 @@ const useBoardStore = create<BoardStore>()(
 
       clearFilter: () => set({ filter: DEFAULT_FILTER }),
 
+      setSelectedTask: (task) => set({ selectedTask: task }),
+      setShowModal: (show) => set({ showModal: show }),
+
       getFilteredTasks: (columnId) => {
         const { tasks, filter } = get();
 
         return tasks.filter((t) => {
-
           if (t.column !== columnId) return false;
 
           if (
             filter.search &&
             !t.title.toLowerCase().includes(filter.search.toLowerCase())
-          ) return false;
+          )
+            return false;
 
           if (filter.assignee && !t.assignees.includes(filter.assignee))
             return false;
@@ -116,13 +123,13 @@ const useBoardStore = create<BoardStore>()(
     }),
 
     {
-      name: 'task-management-board', 
+      name: "task-management-board",
       partialize: (state) => ({
         columns: state.columns,
         tasks: state.tasks,
       }),
-    }
-  )
+    },
+  ),
 );
 
 export default useBoardStore;
