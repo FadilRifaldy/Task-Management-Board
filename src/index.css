@@ -1,3 +1,101 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* ── GLOBAL RESET ── */
+* {
+  font-family: 'DM Sans', sans-serif;
+}
+
+body {
+  background: #f0f2f5;
+  color: #1a1d23;
+  min-height: 100vh;
+}
+
+/* ── IONIC OVERRIDES ── */
+:root {
+  --ion-text-color: #1a1d23;
+  --ion-background-color: #f0f2f5;
+  --ion-item-background: #ffffff;
+}
+
+ion-app {
+  --ion-font-family: 'DM Sans', sans-serif;
+  --ion-background-color: #f0f2f5;
+  --ion-text-color: #1a1d23;
+}
+
+ion-content {
+  --background: #f0f2f5;
+}
+
+ion-modal {
+  --width: 100%;
+  --max-width: 900px;
+  --height: auto;
+  --max-height: 90vh;
+  --border-radius: 16px;
+  --box-shadow: 0 8px 24px rgba(0,0,0,.10);
+}
+
+ion-modal::part(backdrop) {
+  background: rgba(0,0,0,.4);
+  backdrop-filter: blur(2px);
+}
+
+ion-modal::part(content) {
+  border-radius: 16px;
+}
+
+/* Remove ionic toolbar background */
+ion-toolbar {
+  --background: transparent;
+  --border-width: 0;
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+/* ── TOAST ANIMATION ── */
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes toast-out {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(12px); }
+}
+
+.toast-animate {
+  animation: toast-in .3s ease, toast-out .3s ease 2.7s forwards;
+}
+
+/* ── DRAG STATES ── */
+.dragging {
+  opacity: 0.5;
+  transform: rotate(2deg);
+}
+
+.drag-over {
+  background: rgba(79,110,247,.07) !important;
+  border-color: #4f6ef7 !important;
+}
