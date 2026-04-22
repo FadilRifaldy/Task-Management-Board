@@ -4,53 +4,105 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ── GLOBAL RESET ── */
+/* ══════════════════════════════════════════════
+   DARK NAVY NAVBAR THEME — Color Tokens
+   ══════════════════════════════════════════════
+   Navbar:      #1e3a5f  (Dark Navy)
+   Primary:     #5b8def  (Soft Blue accent)
+   Primary-dk:  #4a7de0  (Hover/Active)
+   Success:     #34d399  (Soft Green)
+   Danger:      #f87171  (Soft Rose)
+   Bg:          #f0f4f8  (Cool neutral gray)
+   Surface:     #f5f7fa  (Input/filter bg)
+   Card:        #ffffff  (Pure white)
+   Border:      #e2e8f0  (Cool gray border)
+   Text:        #1e293b  (Dark slate)
+   Text-muted:  #94a3b8  (Muted)
+   ══════════════════════════════════════════════ */
+
 * {
   font-family: 'DM Sans', sans-serif;
 }
 
 body {
-  background: #f0f2f5;
-  color: #1a1d23;
+  background: #f0f4f8;
+  color: #1e293b;
   min-height: 100vh;
 }
 
-/* ── IONIC OVERRIDES ── */
 :root {
-  --ion-text-color: #1a1d23;
-  --ion-background-color: #f0f2f5;
+  --ion-text-color: #1e293b;
+  --ion-background-color: #f0f4f8;
   --ion-item-background: #ffffff;
+
+  --ion-color-primary: #5b8def;
+  --ion-color-primary-rgb: 91,141,239;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-shade: #4a7de0;
+  --ion-color-primary-tint: #7ea5f5;
+
+  --ion-color-success: #34d399;
+  --ion-color-success-rgb: 52,211,153;
+  --ion-color-success-contrast: #ffffff;
+  --ion-color-success-shade: #2bb583;
+  --ion-color-success-tint: #5edcab;
+
+  --ion-color-danger: #f87171;
+  --ion-color-danger-rgb: 248,113,113;
+  --ion-color-danger-contrast: #ffffff;
+  --ion-color-danger-shade: #e65a5a;
+  --ion-color-danger-tint: #fa8f8f;
+
+  --ion-color-medium: #64748b;
+  --ion-color-medium-rgb: 100,116,139;
+  --ion-color-medium-contrast: #ffffff;
+  --ion-color-medium-shade: #475569;
+  --ion-color-medium-tint: #94a3b8;
 }
 
 ion-app {
   --ion-font-family: 'DM Sans', sans-serif;
-  --ion-background-color: #f0f2f5;
-  --ion-text-color: #1a1d23;
+  --ion-background-color: #f0f4f8;
+  --ion-text-color: #1e293b;
 }
 
 ion-content {
-  --background: #f0f2f5;
+  --background: #f0f4f8;
 }
 
+/* ── MODAL ── */
 ion-modal {
   --width: 100%;
-  --max-width: 900px;
+  --max-width: 640px;
   --height: auto;
   --max-height: 90vh;
   --border-radius: 16px;
-  --box-shadow: 0 8px 24px rgba(0,0,0,.10);
+  --box-shadow: 0 16px 48px rgba(30,58,95,.18), 0 4px 12px rgba(0,0,0,.06);
+}
+
+@media (max-width: 640px) {
+  ion-modal {
+    --max-width: 100%;
+    --max-height: 100vh;
+    --border-radius: 0;
+  }
 }
 
 ion-modal::part(backdrop) {
-  background: rgba(0,0,0,.4);
-  backdrop-filter: blur(2px);
+  background: rgba(15,23,42,.5);
+  backdrop-filter: blur(4px);
 }
 
 ion-modal::part(content) {
   border-radius: 16px;
 }
 
-/* Remove ionic toolbar background */
+@media (max-width: 640px) {
+  ion-modal::part(content) {
+    border-radius: 0;
+  }
+}
+
 ion-toolbar {
   --background: transparent;
   --border-width: 0;
@@ -67,15 +119,15 @@ ion-toolbar {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #d1d5db;
+  background: #cbd5e1;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #9ca3af;
+  background: #94a3b8;
 }
 
-/* ── TOAST ANIMATION ── */
+/* ── ANIMATIONS ── */
 @keyframes toast-in {
   from { opacity: 0; transform: translateY(12px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -96,6 +148,17 @@ ion-toolbar {
 }
 
 .drag-over {
-  background: rgba(79,110,247,.07) !important;
-  border-color: #4f6ef7 !important;
+  background: rgba(91,141,239,.08) !important;
+  border-color: #5b8def !important;
+}
+
+/* ── MOBILE: snap-scroll ── */
+@media (max-width: 640px) {
+  .board-scroll {
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+  .board-scroll > * {
+    scroll-snap-align: center;
+  }
 }

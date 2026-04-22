@@ -51,7 +51,7 @@ const App: React.FC = () => (
         <Route exact path="/home">
           <IonPage>
             <IonContent>
-              <div className="min-h-screen bg-[#f0f2f5]">
+              <div className="min-h-screen bg-[#f0f4f8]">
                 <Navbar />
                 <BoardArea />
                 <TaskModal />
